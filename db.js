@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
 const express = require('express');
 
-// Need to install npm modules
-
 const db = new Sequelize(
   process.env.DATABASE_URL || 'postgres://localhost/acme_inventory'
 );
@@ -14,7 +12,7 @@ const Inventory = db.define( 'product', {
   },
   status: {
     type: Sequelize.ENUM( 'In Stock', 'Backordered', 'Discontinued'),
-    defaultValue: 'In stock'
+    defaultValue: 'In Stock'
   }
 })
 
@@ -41,19 +39,20 @@ const productSeed = [
   }
 ]
 
-// const syncAndSeed = async = () => {
-//   try{
-//     await db.sync({ force: true });
-//     await Promise.all(productSeed.map((product) =>
-//     Inventory.create(product)
-//     ))
-//   }
-//   catch(er) {
-//     console.log(er)
-//   }
-// }
+const syncAndSeed = async () => {
+  try{
+    await db.sync({ force: true });
+    await Promise.all(productSeed.map((product) =>
+    Inventory.create(product)
+    ))
+  }
+  catch(er) {
+    console.log(er)
+  }
+}
 
-//syncAndSeed()
+
+//syncAndSeed();
 
 module.exports = {
   db,

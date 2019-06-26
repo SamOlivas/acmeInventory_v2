@@ -1,6 +1,10 @@
 <html>
   <head>
 <style>
+  #navBar {
+    display: flex;
+    justify-content: space-around;
+  }
 </style>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -11,18 +15,82 @@
   <body>
     <div id='root'></div>
     <script type='text/babel'>
+      const { HashRouter, Route, Link, NavLink } = ReactRouterDOM;
 
       class App extends React.Component {
-        constructor(
+        constructor(){
           super()
           this.state = {
-            currentProduct: 0
+            products: []
           }
+        };
+        async componentDidMount() {
+          try {
+            const res = await axios.get('/api/products');
+            const data = await res.data;
+            this.setState( {
+              products: data
+            });
+          }
+          catch (ex) {
+            console.log(ex);
+          }
+        };
+         render() {
+          const {products} = this.state
+          return(
+            <HashRouter>
+              <h1> Acme Inventory </h1>
+              <hr/>
+              <div id='navBar'>
+                <NavLink to='/allProducts'> All Products </NavLink>
+                <NavLink to='/inStock'> In Stock </NavLink>
+                <NavLink to='/backordered'> Backordered </NavLink>
+                <NavLink to='/discontinued'> Discontinued </NavLink>
+              </div>
+              <hr/>
+              <Route exact path='/' render={()=> <h1>Home Page</h1>} />
+              <Route path='/allProducts' render= {()=> <AllProducts products={products}/>}/>
+              <Route path='/inStock' render= {()=> <InStock products={products}/>}/>
+              <Route path='/backordered' render= {()=> <Backordered products={products}/>}/>
+              <Route path='/discontinued' render= {()=> <Discontinued products={products}/>}/>
+            </HashRouter>
+          )
+         }
+      };
+
+      const AllProducts = props => {
+        const products = props
+        return(
+          <div>
+          </div>
         )
       }
 
+      const InStock = props => {
+        const products = props
+        return(
+          <hr/>
+        )
+      }
+
+      const Backordered = props => {
+        const products = props
+        return(
+          <hr/>
+        )
+      }
+
+      const Discontinued = props => {
+        const products = props
+        return(
+          <hr/>
+        )
+      }
+
+
       const root = document.querySelector('#root');
-      ReactDOM.render(<hr />, root);
+      ReactDOM.render(<App />, root);
     </script>
   </body>
 </html>
