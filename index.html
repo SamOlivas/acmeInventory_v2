@@ -1,20 +1,22 @@
 <html>
-  <head>
-<style>
-  #navBar {
-    display: flex;
-    justify-content: space-around;
-  }
-</style>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.0/react-router-dom.js'></script>
-  </head>
-  <body>
-    <div id='root'></div>
-    <script type='text/babel'>
+
+<head>
+  <style>
+    #navBar {
+      display: flex;
+      justify-content: space-around;
+    }
+  </style>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.0/react-router-dom.js'></script>
+</head>
+
+<body>
+  <div id='root'></div>
+  <script type='text/babel'>
       const { HashRouter, Route, Link, NavLink } = ReactRouterDOM;
 
       class App extends React.Component {
@@ -27,6 +29,7 @@
         async componentDidMount() {
           try {
             const res = await axios.get('/api/products');
+            console.log(res.data)
             const data = await res.data;
             this.setState( {
               products: data
@@ -60,9 +63,15 @@
       };
 
       const AllProducts = props => {
+        // so close!  Just needed to destructure products
+        // const {products} = props
         const products = props
         return(
           <div>
+            {
+              // then map over the products...
+              //products.map(product => product.name)
+            }
           </div>
         )
       }
@@ -92,5 +101,6 @@
       const root = document.querySelector('#root');
       ReactDOM.render(<App />, root);
     </script>
-  </body>
+</body>
+
 </html>

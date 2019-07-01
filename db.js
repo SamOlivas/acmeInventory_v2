@@ -5,13 +5,13 @@ const db = new Sequelize(
   process.env.DATABASE_URL || 'postgres://localhost/acme_inventory'
 );
 
-const Inventory = db.define( 'product', {
+const Inventory = db.define('product', {
   name: {
     type: Sequelize.STRING,
     allowNull: false
   },
   status: {
-    type: Sequelize.ENUM( 'In Stock', 'Backordered', 'Discontinued'),
+    type: Sequelize.ENUM('In Stock', 'Backordered', 'Discontinued'),
     defaultValue: 'In Stock'
   }
 })
@@ -40,19 +40,18 @@ const productSeed = [
 ]
 
 const syncAndSeed = async () => {
-  try{
+  try {
     await db.sync({ force: true });
     await Promise.all(productSeed.map((product) =>
-    Inventory.create(product)
-    ))
+      Inventory.create(product)))
   }
-  catch(er) {
+  catch (er) {
     console.log(er)
   }
 }
 
 
-//syncAndSeed();
+syncAndSeed();
 
 module.exports = {
   db,
